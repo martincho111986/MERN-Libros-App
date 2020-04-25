@@ -1,0 +1,24 @@
+.contenedorForm{
+    width: 500px;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.contenedor-cards{
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    margin: 10px;
+}
+
+
+.titulos{
+    text-align: center;
+}

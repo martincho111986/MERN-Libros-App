@@ -11,6 +11,9 @@ import {
 } from "react-router-dom";
 
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ListaLibros from './components/Lista Libros/ListaLibros';
+import ActualizarLibro from './components/actualizar libro/ActualizarLibro';
 
 
 
@@ -25,12 +28,12 @@ function App() {
       <div className="container">
        
         <Switch>
-        <Route path="/" exact>
+        <Route exact path="/" >
             
             </Route>
   
-          <Route path="/actualizar">
-            <Actualizar />
+          <Route exact path="/actualizar">
+            <ActualizarLibro />
           </Route>
         
         </Switch>
