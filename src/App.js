@@ -6,11 +6,18 @@ import {
   Link
 } from "react-router-dom";
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ListaLibros from './components/Lista Libros/ListaLibros';
+import ActualizarLibro from './components/actualizar libro/ActualizarLibro';
 
 
 function App() {
   return (
-    <h1>proyecto MERN libros</h1>
+    <>
+    <ListaLibros />
+    {/* <ActualizarLibro /> */}
+    
+    </>
   );
 }
 
