@@ -43,7 +43,8 @@ const ActualizarLibro = () => {
                 <h1>Lista de libros disponibles</h1>
             </div>
             <div className="container-fluid contenedor-cards">
-                <Card className="m-3" style={{ width: '13rem' }}>
+                
+                {/* <Card className="m-3" style={{ width: '13rem' }}>
                     <Card.Img variant="top" src="holder.js/100px180" />
                     <Card.Body>
                         <Card.Title>Titulo del Libro</Card.Title>
@@ -221,9 +222,10 @@ const ActualizarLibro = () => {
                         </Card.Text>
                         <Button variant="primary">Go somewhere</Button>
                     </Card.Body>
-                </Card>
+                </Card> */}
             </div>
-        </>
+            </>
+        
     );
 }
 
