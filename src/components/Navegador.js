@@ -1,14 +1,12 @@
-import React, { state, useState } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
-import ListaLibros from '../components/Lista Libros/ListaLibros';
+import ListaLibros from './Libros/ListaLibros';
 import {
   Link
 } from "react-router-dom";
@@ -24,13 +22,22 @@ const Navegador = () => {
       titulo: '',
       anioPublicacion: '',
       autor: '',
-      url: ''
+      url: '',
+      genero: ''
     }
   );
 
-
-
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setError(false)
+    setLibro({
+      titulo: '',
+      anioPublicacion: '',
+      autor: '',
+      url: '',
+      genero: ''
+    })
+  }
   const handleShow = () => setShow(true);
 
   // const {titulo, anioPublicacion, autor, url} = libro;
@@ -43,23 +50,24 @@ const Navegador = () => {
     if (libro.titulo.trim() === '' || libro.anioPublicacion.trim() === '' || libro.autor.trim() === '' || libro.url.trim() === '') {
       setError(true)
       return;
-    } 
+    }
     setError(false)
 
     //cargar objeto en el array
     setLibros([
       ...libros, libro
-    ]) 
+    ])
 
     //reiniciar el form
     setLibro({
       titulo: '',
       anioPublicacion: '',
       autor: '',
-      url: ''
+      url: '',
+      genero: ''
     })
-    
-     
+
+
   }
 
   //onchange
@@ -72,97 +80,118 @@ const Navegador = () => {
 
   //boton para cargar
   // const handleCargar = () => {
-    
+
   // }
 
   return (
 
     <>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">Libreria</Navbar.Brand>
+        <Navbar.Brand href="/home">Libreria</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Link to="/actualizar">
-            Actualizar</Link>
-            </Nav>
-            <Nav>
-            <Button variant="primary" onClick={handleShow}>
-              Agregar Libro
-            </Button>
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Cargar un libro</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group>
-                    <label htmlFor="">Titulo del libro</label>
-                    <Form.Control
-                      size="sm"
-                      name="titulo"
-                      type="text"
-                      
-              
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="">Autor</label>
-                    <Form.Control
-                      size="sm"
-                      type="text"
-                      name="autor"
-                      
-                 
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="">Año de publicacion</label>
-                    <Form.Control
-                      size="sm"
-                      type="text"
-                      name="anioPublicacion"
-                      
-                      
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="">Imagen del libro</label>
-                    <Form.Control
-                      size="sm"
-                      type="text"
-                      name="url"
-                     
-                      
-                      onChange={handleChange}
-                    />
+          <Nav className="ml-auto">
+            <li className="link-route">
+              <Link 
+                to="/actualizar"
+                className="link-li"
+              >Actualizar</Link>
 
-                  </Form.Group>
-                  
-                  <Button variant="primary" type="submit">
-                  Cargar
-                </Button>
-                </Form>
+            </li>
+            <li className="link-route">
+              <Link
+                to="/actualizar"
+                className="link-li"
+                onClick={handleShow}
+              >Agregar Libro</Link>
 
-              </Modal.Body>
-              {error ? <p className="alert alert-danger">Todos los campos son obligatorios</p> : null }
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Cerrar
-                </Button>
-                
-              </Modal.Footer>
-            </Modal>
-            
+            </li>
+
             <Form className="ml-3" inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Buscar Libro</Button>
-          </Form>
+              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <Button variant="outline-primary">Buscar Libro</Button>
+            </Form>
 
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      
-      <ListaLibros
+
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cargar un libro</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <label htmlFor="">Titulo del libro</label>
+              <Form.Control
+                size="sm"
+                name="titulo"
+                type="text"
+
+
+                onChange={handleChange}
+              />
+              <label htmlFor="">Autor</label>
+              <Form.Control
+                size="sm"
+                type="text"
+                name="autor"
+
+
+                onChange={handleChange}
+              />
+              <label htmlFor="">Año de publicacion</label>
+              <Form.Control
+                size="sm"
+                type="text"
+                name="anioPublicacion"
+
+
+                onChange={handleChange}
+              />
+              <label htmlFor="">Imagen del libro</label>
+              <Form.Control
+                size="sm"
+                type="text"
+                name="url"
+
+
+                onChange={handleChange}
+              />
+              <label htmlFor="">Genero</label>
+              <Form.Control
+                size="sm"
+                name="genero"
+                type="text"
+
+
+                onChange={handleChange}
+              />
+
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              Cargar
+                </Button>
+          </Form>
+
+        </Modal.Body>
+        {error ? <p className="alert alert-danger">Todos los campos son obligatorios</p> : null}
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cerrar
+                </Button>
+
+        </Modal.Footer>
+      </Modal>
+
+      {/* <ListaLibros
         libros={libros}
-      />
+      /> */}
+
+      
     </>
   )
 
