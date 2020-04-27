@@ -9,8 +9,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navegador from './components/Navegador';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import ListaLibros from './components/Libros/ListaLibros';
 import ActualizarLibro from './components/actualizar libro/ActualizarLibro';
+
 
 
 
@@ -26,7 +28,14 @@ function App() {
       <div className="container">
 
         <Switch>
-          <Route exact path="/" >  
+
+        <Route exact path="/" >
+            
+            </Route>
+  
+          <Route exact path="/actualizar">
+            <ActualizarLibro />
+
           </Route>
 
           <Route exact path="/actualizar">
