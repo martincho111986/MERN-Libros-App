@@ -26,7 +26,7 @@ function App() {
       <div className="container">
 
         <Switch>
-          <Route exact path="/home" >  
+          <Route exact path="/" >  
           </Route>
 
           <Route exact path="/actualizar">

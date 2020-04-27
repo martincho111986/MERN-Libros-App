@@ -187,9 +187,9 @@ const Navegador = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* <ListaLibros
+      <ListaLibros
         libros={libros}
-      /> */}
+      />
 
       
     </>
