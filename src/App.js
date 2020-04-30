@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from 'react';
 import {
   BrowserRouter as Router,
@@ -5,6 +6,7 @@ import {
   Route,
   
 } from "react-router-dom";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navegador from './components/Navegador';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,7 +18,10 @@ import axiosInstance from './util/axiosInstance';
 
 
 
+
+
 function App() {
+
 
   const [libros, setLibros] = useState([]);
   // const location = useLocation();
@@ -40,16 +45,19 @@ function App() {
 
     <Router>
       <div>
+
         <Navegador 
           libros={libros}
           setLibros={setLibros}
           fetchLibros={fetchLibros}
         />
+
       </div>
 
       <div className="container">
 
         <Switch>
+
           <Route exact path="/" >  
           <ListaLibros 
             libros={libros}

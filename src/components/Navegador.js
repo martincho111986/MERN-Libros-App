@@ -6,7 +6,9 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+
 // import ListaLibros from './Libros/ListaLibros';
+
 import {
   Link
 } from "react-router-dom";
@@ -62,6 +64,7 @@ const Navegador = ({ libros, setLibros, fetchLibros }) => {
     setLibros([
       ...libros, libro
     ])
+
     //reiniciar el form
     setLibro({
       titulo: '',
@@ -70,6 +73,7 @@ const Navegador = ({ libros, setLibros, fetchLibros }) => {
       url: '',
       genero: ''
     })
+
   }
 
   //onchange
@@ -80,12 +84,13 @@ const Navegador = ({ libros, setLibros, fetchLibros }) => {
     })
   }
 
-  
+
 
   return (
 
     <>
       <Navbar bg="light" expand="lg">
+
         <Navbar.Brand href="/">Libreria</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -105,6 +110,7 @@ const Navegador = ({ libros, setLibros, fetchLibros }) => {
               >Actualizar</Link>
 
             </li>
+
             <Form className="ml-3" inline>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" />
               <Button variant="outline-primary">Buscar Libro</Button>
@@ -184,6 +190,8 @@ const Navegador = ({ libros, setLibros, fetchLibros }) => {
 
         </Modal.Footer>
       </Modal>
+
+
 
 
       
