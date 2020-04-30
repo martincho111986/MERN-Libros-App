@@ -1,11 +1,14 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import './ActualizarLibro.css'
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import axiosInstance from '../../util/axiosInstance';
+import FormActualizar from './FormActualizar';
 
-const ActualizarLibro = () => {
-    
+
+
+const ActualizarLibro = ({ libros, fetchLibros }) => {
+
     const [listUpdate, setListUpdate] = useState([]);
     const [modificarLibro, setModificarLibro] = useState({
         titulo: '',
@@ -16,279 +19,62 @@ const ActualizarLibro = () => {
     })
 
 
-const handleOnChange = e =>{
-    setModificarLibro({
-        ...modificarLibro,
-        [e.target.name] : e.target.value
-    })
-}
+    const handleOnChange = e => {
+        setModificarLibro({
+            ...modificarLibro,
+            [e.target.name]: e.target.value
+        })
+    }
 
     //hanble submit del form
 
     const handleSubmit = e => {
         e.preventDefault();
         setListUpdate([
-            ...listUpdate, modificarLibro
+            ...listUpdate, libros
         ])
     }
 
+    //eliminar Libros
+    const eliminarLibro = id => async () =>{
+        const result =  await axiosInstance.delete(`/libros/${id}`);
+        console.log(result);
+        fetchLibros();
+    }
+
+    //update de libros
+
+
     return (
         <>
-            <div className="titulos">
-                <h1>ACTUALIZAR LIBROS DISPONIBLES</h1>
-            </div>
-            <div className="container">
-                <div className="contenedorForm">
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Titulo del Libro</Form.Label>
-                            <Form.Control 
-                                type="text"
-                                name="titulo"
-                                onChange={handleOnChange}
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Año de Publicacion</Form.Label>
-                            <Form.Control 
-                                type="number"
-                                name="anioPublicacion"
-                                onChange={handleOnChange}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Autor</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="autor"
-                                onChange={handleOnChange}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Img URL</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="url"
-                                onChange={handleOnChange}
-                            />
-                        </Form.Group>
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Genero</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="genero"
-                                onChange={handleOnChange}
-                            />
-                        </Form.Group>
-                       
-                        <Button variant="primary" type="submit">
-                            Modificar
-                    </Button>
-                    </Form>
-                </div>
-            </div>
+            <FormActualizar
+                handleSubmit={handleSubmit}
+                handleOnChange={handleOnChange}
+            />
             <br />
             <hr />
 
-            <div className="titulos">
+            <div className="titulos1">
                 <h1>Lista de libros disponibles</h1>
             </div>
             <div className="container-fluid contenedor-cards">
+                {libros.map(({ titulo, autor, anioPublicacion, url, genero, _id }) => (
+                    <Card key={_id} className="m-3" style={{ width: '18rem' }}>
+                        <Card.Img className="card-img" variant="top" src={url} />
+                        <Card.Body>
+                            <Card.Title>{titulo}</Card.Title>
+                            <Card.Text>
+                                <span>Año de publicación: {anioPublicacion} </span> <br />
+                                <span>Autor: {autor}</span> <br />
+                                <span>Genero: {genero}</span>
+                            </Card.Text>
+                            <Button className="mr-2" variant="primary"><i className="fas fa-pen"></i></Button>
+                            <Button variant="danger" onClick={eliminarLibro(_id)}><i className="fas fa-trash-alt"></i></Button>
+                        </Card.Body>
+                    </Card>
 
-            <Card className="m-3" style={{ width: '15rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación: </span> <br />
-                            <span>Autor: </span> <br />
-                            <span>Genero: </span>
-                        </Card.Text>
-                        <Button className="mr-2" variant="primary">Modificar</Button>
-                        <Button variant="danger">Eliminar</Button>
-                    </Card.Body>
-                </Card>
+                ))}
 
-                {/* <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card>
-
-                <Card className="m-3" style={{ width: '13rem' }}>
-                    <Card.Img variant="top" src="holder.js/100px180" />
-                    <Card.Body>
-                        <Card.Title>Titulo del Libro</Card.Title>
-                        <Card.Text>
-                            <span>Año de publicación</span> <br />
-                            <span>Autor</span>
-                        </Card.Text>
-                        <Button variant="primary">Go somewhere</Button>
-                    </Card.Body>
-                </Card> */}
             </div>
         </>
 
