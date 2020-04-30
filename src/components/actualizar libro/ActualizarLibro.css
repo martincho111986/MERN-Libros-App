@@ -16,9 +16,22 @@
 
 .card {
     margin: 10px;
+    height: 500px;
+    
 }
 
 
 .titulos{
     text-align: center;
+}
+.titulos1{
+    margin-top: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-img {
+    height: 280px;
 }

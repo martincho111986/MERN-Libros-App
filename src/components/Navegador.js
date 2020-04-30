@@ -6,17 +6,18 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import ListaLibros from './Libros/ListaLibros';
+// import ListaLibros from './Libros/ListaLibros';
 import {
   Link
 } from "react-router-dom";
+import axiosInstance from '../util/axiosInstance';
 
 
-const Navegador = () => {
+
+const Navegador = ({ libros, setLibros, fetchLibros }) => {
 
   const [error, setError] = useState(false);
-  const [show, setShow] = useState(false);
-  const [libros, setLibros] = useState([]);
+  const [show, setShow] = useState(false); 
   const [libro, setLibro] = useState(
     {
       titulo: '',
@@ -43,21 +44,23 @@ const Navegador = () => {
   // const {titulo, anioPublicacion, autor, url} = libro;
 
   //handle submit del form
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-
     //Validar Formulario
     if (libro.titulo.trim() === '' || libro.anioPublicacion.trim() === '' || libro.autor.trim() === '' || libro.url.trim() === '') {
       setError(true)
       return;
     }
     setError(false)
+    //enviar formulario al back-end
+
+    await axiosInstance.post("/libros", libro)
+    fetchLibros();
 
     //cargar objeto en el array
     setLibros([
       ...libros, libro
     ])
-
     //reiniciar el form
     setLibro({
       titulo: '',
@@ -66,8 +69,6 @@ const Navegador = () => {
       url: '',
       genero: ''
     })
-
-
   }
 
   //onchange
@@ -78,19 +79,24 @@ const Navegador = () => {
     })
   }
 
-  //boton para cargar
-  // const handleCargar = () => {
-
-  // }
+  
 
   return (
 
     <>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="/home">Libreria</Navbar.Brand>
+        <Navbar.Brand href="/">Libreria</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
+          <li className="link-route">
+              <Link
+                to="/"
+                className="link-li"
+                onClick={handleShow}
+              >Agregar Libro</Link>
+
+            </li>
             <li className="link-route">
               <Link 
                 to="/actualizar"
@@ -98,15 +104,6 @@ const Navegador = () => {
               >Actualizar</Link>
 
             </li>
-            <li className="link-route">
-              <Link
-                to="/actualizar"
-                className="link-li"
-                onClick={handleShow}
-              >Agregar Libro</Link>
-
-            </li>
-
             <Form className="ml-3" inline>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" />
               <Button variant="outline-primary">Buscar Libro</Button>
@@ -187,9 +184,6 @@ const Navegador = () => {
         </Modal.Footer>
       </Modal>
 
-      <ListaLibros
-        libros={libros}
-      />
 
       
     </>
