@@ -46,6 +46,7 @@ const Navegador = ({ libros, setLibros, fetchLibros }) => {
   //handle submit del form
   const handleSubmit = async e => {
     e.preventDefault();
+    
     //Validar Formulario
     if (libro.titulo.trim() === '' || libro.anioPublicacion.trim() === '' || libro.autor.trim() === '' || libro.url.trim() === '') {
       setError(true)
